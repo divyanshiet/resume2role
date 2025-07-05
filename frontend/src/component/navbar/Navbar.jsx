@@ -1,44 +1,74 @@
 import React, { useState } from "react";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { RiCloseLargeLine } from "react-icons/ri";
-import logo from '../../assets/logo.png';
 import "./Navbar.css";
 
-const Navbar = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
+// Simple SVG icons for menu
+const Menu = (props) => (
+  <svg viewBox="0 0 24 24" fill="none" {...props}><rect x="4" y="7" width="16" height="2" rx="1" fill="currentColor"/><rect x="4" y="15" width="16" height="2" rx="1" fill="currentColor"/></svg>
+);
+const X = (props) => (
+  <svg viewBox="0 0 24 24" fill="none" {...props}><path d="M6 6l12 12M6 18L18 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
+);
 
-  // Optional: close menu when a link is clicked (for better UX)
-  const handleLinkClick = () => setMenuOpen(false);
+const Navbar = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const toggleMobileMenu = () => setIsMobileMenuOpen((prev) => !prev);
 
   return (
-    <nav className={`navbar${menuOpen ? " open" : ""}`}>
-      <div className="navbar-left">
-        <img
-          src={logo}
-          alt="Logo"
-          className="navbar-logo"
-        />
-      </div>
-      <button
-        className={`hamburger${menuOpen ? " open" : ""}`}
-        onClick={() => setMenuOpen((prev) => !prev)}
-        aria-label="Toggle navigation menu"
-      >
-        {menuOpen ? <RiCloseLargeLine /> : <GiHamburgerMenu />}
-      </button>
-      <div className={`navbar-menu-wrapper${menuOpen ? " open" : ""}`}>
-        <ul className="navbar-links" onClick={handleLinkClick}>
-          <li>Learn</li>
-          <li>Product</li>
-          <li>Pricing</li>
-          <li>Support</li>
-          <li>Company</li>
-          <li>Blog</li>
-        </ul>
-      </div>
-      <div className="navbar-right" onClick={handleLinkClick}>
-        <button className="navbar-login">Log in</button>
-        <button className="navbar-signup">Sign up</button>
+    <nav className="navbar-bg">
+      <div className="navbar-container">
+        <div className="navbar-inner">
+          {/* Logo */}
+          <div className="navbar-logo">
+            <div className="navbar-logo-gradient">
+              SkillBridge
+            </div>
+          </div>
+
+          {/* Desktop Navigation */}
+          <div className="navbar-links">
+            <a href="#">Learn</a>
+            <a href="#">Product</a>
+            <a href="#">Pricing</a>
+            <a href="#">Support</a>
+            <a href="#">Company</a>
+            <a href="#">Blog</a>
+          </div>
+
+          {/* Desktop Auth Buttons */}
+          <div className="navbar-auth">
+            <button className="navbar-login">Log in</button>
+            <button className="navbar-signup">Sign up</button>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <div className="navbar-mobile-btn">
+            <button onClick={toggleMobileMenu}>
+              {isMobileMenuOpen ? (
+                <X className="navbar-mobile-icon" />
+              ) : (
+                <Menu className="navbar-mobile-icon" />
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="navbar-mobile-menu">
+            <div className="navbar-mobile-links">
+              <a href="#">Learn</a>
+              <a href="#">Product</a>
+              <a href="#">Pricing</a>
+              <a href="#">Support</a>
+              <a href="#">Company</a>
+              <a href="#">Blog</a>
+              <div className="navbar-mobile-auth">
+                <button className="navbar-login">Log in</button>
+                <button className="navbar-signup">Sign up</button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </nav>
   );
